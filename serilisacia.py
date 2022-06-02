@@ -48,3 +48,9 @@ if os.path.isfile(args.file):
 
 else:
     print('File not found')
+
+[CATS]
+DAISY = Daisy, british, gray, 15
+SIMA = Sima, russian, tricolor, 7
+MILEN = Milen, usa, ,black, 9
+

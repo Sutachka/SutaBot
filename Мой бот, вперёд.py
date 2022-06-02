@@ -16,7 +16,7 @@ bot = telebot.TeleBot('5166133359:AAHDTRN51Odhtpi9Bkn8BxbhfZrBTki9gJo')  # Со�
 @bot.message_handler(commands="start")
 def command(message):
     chat_id = message.chat.id
-    bot.send_sticker(chat_id, "CAACAgIAAxkBAAIaeWJEeEmCvnsIzz36cM0oHU96QOn7AAJUAANBtVYMarf4xwiNAfojBA")
+    bot.send_sticker(chat_id, "CAACAgIAAxkBAAIIYGKV4rk0AAFphe2mI1hfLofWvkxs7gADFwACdOgpSOcOveZfXGgPJAQ")
     txt_message = f"Хаюшки, {message.from_user.first_name}! Я тестовый бот для курса программирования на языке Python"
     bot.send_message(chat_id, text=txt_message, reply_markup=Menu.getMenu(chat_id, "Менюшка").markup)
 
@@ -27,8 +27,13 @@ def command_text_hi(m):
 
 @bot.message_handler(func=lambda message: message.text.lower() == "как дела?")
 def command_text_dela(m):
-    bot.send_message(m.chat.id, "хорошо")
+    bot.send_message(m.chat.id, "Хорошо")
 
+@bot.message_handler(func=lambda message: message.text.lower() == "пока")
+def command(message):
+    chat_id = message.chat.id
+    bot.send_sticker(chat_id, "CAACAgIAAxkBAAIJnWKYreAnsDK91oqppRaSOLnHuTJGAALAFAACX0AoSE361PTMAAHxZCQE")
+    bot.send_message(message.chat.id, "Всего хорошего! Удачи!!!")
 #------------------------------------------------------------------------
 import random
 import telebot
@@ -54,6 +59,8 @@ def get_data_storage(user_id):
 def digitgames(message):
     init_storage(message.chat.id)  ### Инициализирую хранилище
 
+    attempt = 1
+    set_data_storage(message.chat.id, "attempt", attempt)
 
     bot.send_message(message.chat.id, f'Игра "угадай число"!')
 
@@ -76,17 +83,22 @@ def process_digit_step(message):
         bot.register_next_step_handler(msg, process_digit_step)
         return
 
+    attempt = get_data_storage(message.chat.id)["attempt"]
     random_digit = get_data_storage(message.chat.id)["random_digit"]
 
     if int(user_digit) == random_digit:
-        bot.send_message(message.chat.id, f'Ура! Ты угадал число! Это была цифра: {random_digit}')
+        bot.send_message(message.chat.id, f'Ура! Ты угадал число! Это была цифра: {random_digit}' + '\n' + f'Количество попыток: {attempt}')
         init_storage(message.chat.id)  ### Очищает значения из хранилище
         return
     elif int(user_digit) > random_digit:
+        attempt += 1
+        set_data_storage(message.chat.id, "attempt", attempt)
         bot.send_message(message.chat.id, 'Меньше')
         bot.register_next_step_handler(message, process_digit_step)
         return
     else:
+        attempt += 1
+        set_data_storage(message.chat.id, "attempt", attempt)
         bot.send_message(message.chat.id, 'Больше')
         bot.register_next_step_handler(message, process_digit_step)
         return

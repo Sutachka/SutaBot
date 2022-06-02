@@ -108,6 +108,6 @@ m_game_rsp = Menu("Игра КНБ", buttons=["Камень", "Ножницы", 
 
 m_DZ = Menu("ДЗ", buttons=["Ввод имени", "Ввод возраста", "Задача", "Выход"], parent=m_main, module="DZ")
 
-m_fun = Menu("Развлечения", buttons=["Пёсики", "Лисята", "Приколдесы", "Прислать фильм", "Выход"], parent=m_main, module="fun")
+m_fun = Menu("Развлечения", buttons=["Пёсики", "Лисята", "Приколдесы", "Курс биткоина", "Прислать фильм", "Выход"], parent=m_main, module="fun")
 
 Menu.loadCurMenu()

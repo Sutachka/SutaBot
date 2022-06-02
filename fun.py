@@ -3,6 +3,7 @@ import requests
 import bs4  # BeautifulSoup4
 from telebot import types
 from io import BytesIO
+import json
 
 # -----------------------------------------------------------------------
 def get_text_messages(bot, cur_user, message):
@@ -21,20 +22,29 @@ def get_text_messages(bot, cur_user, message):
     elif ms_text == "Прислать фильм":
         send_film(bot, chat_id)
 
+    elif ms_text == "Курс биткоина":
+        bot.send_message(chat_id, text=get_bitcoin())
+
 
 # -----------------------------------------------------------------------
 def get_anekdot():
-    array_anekdots = []
-    req_anek = requests.get('http://anekdotme.ru/random')
-    if req_anek.status_code == 200:
-        soup = bs4.BeautifulSoup(req_anek.text, "html.parser")
-        result_find = soup.select('.anekdot_text')
-        for result in result_find:
-            array_anekdots.append(result.getText().strip())
-    if len(array_anekdots) > 0:
-        return array_anekdots[0]
-    else:
-        return ""
+    from random import randint
+    import bs4
+    array = []
+    anek = requests.get("http://anekdotme.ru/anekdot/random")
+    soup = bs4.BeautifulSoup(anek.text, "html.parser")
+    result = soup.select(".anekdot_text")
+    for finalResult in result:
+        array.append(finalResult.getText().strip())
+    return array[0]
+
+
+#------------------------------------------------------------------------
+def get_bitcoin():
+    contents = requests.get('https://api.coindesk.com/v1/bpi/currentprice.json').json()
+    date = contents['time']['updateduk']
+    cost = contents['bpi']['EUR']['rate']
+    return 'Сегодня, ' + date + ' по Британскому времени' + '\n' + 'курс биткоина: ' + cost + ' евро'
 
 
 # -----------------------------------------------------------------------
@@ -48,7 +58,7 @@ def get_foxURL():
     return url
 
 
-# -----------------------------------------------------------------------
+#------------------------------------------------------------------------
 def get_dogURL():
     url = ""
     req = requests.get('https://random.dog/woof.json')

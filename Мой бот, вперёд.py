@@ -87,7 +87,7 @@ def process_digit_step(message):
     random_digit = get_data_storage(message.chat.id)["random_digit"]
 
     if int(user_digit) == random_digit:
-        bot.send_message(message.chat.id, f'Ура! Ты угадал число! Это была цифра: {random_digit}' + '\n' + f'Количество попыток: {attempt}')
+        bot.send_message(message.chat.id, f'Ура! Ты угадал число! Это была цифра: {random_digit}' + '\n' + f'Было количество попыток: {attempt}')
         init_storage(message.chat.id)  ### Очищает значения из хранилище
         return
     elif int(user_digit) > random_digit:

@@ -205,6 +205,9 @@ class GameRPS:
         return f"{player1Choice} vs {self.computerChoice} = " + winner
 
 
+
+
+
 # -----------------------------------------------------------------------
 class GameRPS_Multiplayer:
     game_duration = 10  # сек.
@@ -411,6 +414,8 @@ class GameRPS_Multiplayer:
                                                      reply_markup=player.gameMessage.reply_markup)
         except:
             pass
+
+# -----------------------------------------------------------------------
 
 
 # -----------------------------------------------------------------------
